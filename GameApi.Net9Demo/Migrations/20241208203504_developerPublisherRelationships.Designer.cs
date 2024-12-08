@@ -4,6 +4,7 @@ using GameApi.Net9Demo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameApi.Net9Demo.Migrations
 {
     [DbContext(typeof(VideoGameDbContext))]
-    partial class VideoGameDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241208203504_developerPublisherRelationships")]
+    partial class developerPublisherRelationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,23 +40,6 @@ namespace GameApi.Net9Demo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Developer");
-                });
-
-            modelBuilder.Entity("GameApi.Net9Demo.Models.Genre", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Genre");
                 });
 
             modelBuilder.Entity("GameApi.Net9Demo.Models.Publisher", b =>
@@ -153,21 +139,6 @@ namespace GameApi.Net9Demo.Migrations
                     b.ToTable("VideoGameDetails");
                 });
 
-            modelBuilder.Entity("GenreVideoGame", b =>
-                {
-                    b.Property<int>("GenresId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VideoGamesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("GenresId", "VideoGamesId");
-
-                    b.HasIndex("VideoGamesId");
-
-                    b.ToTable("GenreVideoGame");
-                });
-
             modelBuilder.Entity("GameApi.Net9Demo.Models.VideoGame", b =>
                 {
                     b.HasOne("GameApi.Net9Demo.Models.Developer", "Developer")
@@ -188,21 +159,6 @@ namespace GameApi.Net9Demo.Migrations
                     b.HasOne("GameApi.Net9Demo.Models.VideoGame", null)
                         .WithOne("VideoGameDetails")
                         .HasForeignKey("GameApi.Net9Demo.Models.VideoGameDetails", "VideoGameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("GenreVideoGame", b =>
-                {
-                    b.HasOne("GameApi.Net9Demo.Models.Genre", null)
-                        .WithMany()
-                        .HasForeignKey("GenresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GameApi.Net9Demo.Models.VideoGame", null)
-                        .WithMany()
-                        .HasForeignKey("VideoGamesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
