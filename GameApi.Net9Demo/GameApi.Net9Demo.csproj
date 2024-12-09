@@ -19,8 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\" />
-    <Folder Include="View\VideoGame\" />
+    <Folder Include="View\Components\" />
   </ItemGroup>
 
 </Project>
